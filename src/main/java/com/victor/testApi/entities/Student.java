@@ -1,14 +1,30 @@
 package com.victor.testApi.entities;
 
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+
 public class Student{
     
-    private Long id;
+    private int id;
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String nombres;
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String apellidos;
-    private Long matricula;
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^A\\d+$")
+    private String matricula;
+    @Digits(integer=1, fraction=3)
     private double promedio;
     
-    public Student(Long id, String name, String lastName, Long studentId, double studentGPA){
+    public Student(int id, String name, String lastName, String studentId, double studentGPA){
         this.id = id;
         this.nombres = name;
         this.apellidos = lastName;
@@ -16,11 +32,11 @@ public class Student{
         this.promedio = studentGPA;
     }
 
-    public Long getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,11 +56,11 @@ public class Student{
         this.apellidos = apellidos;
     }
 
-    public Long getMatricula() {
+    public String getMatricula() {
         return this.matricula;
     }
 
-    public void setMatricula(Long matricula) {
+    public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
 
