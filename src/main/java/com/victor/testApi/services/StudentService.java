@@ -15,14 +15,6 @@ public class StudentService {
         return this.studentsList;
     }
 
-    public StudentService() {
-        studentsList.add(new Student(5L, "carlitos", "santana", 10L, 5.5));
-        studentsList.add(new Student(6L, "alex", "leon", 11L, 5.5));
-        studentsList.add(new Student(7L, "karina", "zabaleta", 12L, 5.5));
-        studentsList.add(new Student(8L, "paola", "asencio", 13L, 5.5));
-        studentsList.add(new Student(9L, "rey", "misterio", 14L, 5.5));
-    }
-
     public void addStudent(Student student){
         studentsList.add(student);
     }
@@ -33,6 +25,7 @@ public class StudentService {
 
     public void modifyStudent(Student student, Long id){
         Student modifiedStudent = searchStudent(id);
+        modifiedStudent.setId(student.getId());
         modifiedStudent.setNombres(student.getNombres());
         modifiedStudent.setApellidos(student.getApellidos());
         modifiedStudent.setMatricula(student.getMatricula());

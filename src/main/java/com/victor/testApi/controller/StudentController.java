@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.victor.testApi.entities.Student;
 import com.victor.testApi.services.StudentService;
 
+import jakarta.validation.Valid;
+
 @RestController
+@Validated
 public class StudentController {
     
     private final StudentService studentService;
@@ -32,23 +37,35 @@ public class StudentController {
     }
 
     @GetMapping("/alumnos/{id}")
-    public Student getStudent(@PathVariable Long id){
-        return this.studentService.searchStudent(id);
+    public ResponseEntity<?> getStudent(@PathVariable Long id){
+        Student student = this.studentService.searchStudent(id);
+        if(student == null){
+            return new ResponseEntity<String>("failure", HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<Student>(student, HttpStatus.OK);
+        }
     }
 
     @PostMapping("/alumnos")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addStudent(@RequestBody Student student){
+    public ResponseEntity<Student> addStudent(@RequestBody @Valid Student student){
         this.studentService.addStudent(student);
+        return new ResponseEntity<Student>(student, HttpStatus.CREATED);
     }
 
     @PutMapping("/alumnos/{id}")
-    public void modifyStudent(@PathVariable Long id, @RequestBody Student student){
+    public ResponseEntity<Student> modifyStudent(@PathVariable Long id, @RequestBody @Valid Student student){
         this.studentService.modifyStudent(student, id);
+        return new ResponseEntity<Student>(student, HttpStatus.OK);
     }
 
     @DeleteMapping("/alumnos/{id}")
-    public void removeStudent(@PathVariable Long id){
-        this.studentService.removeStudent(id);
+    public ResponseEntity<String> removeStudent(@PathVariable Long id){
+        if(this.studentService.searchStudent(id) == null){
+            return new ResponseEntity<String>("failure", HttpStatus.NOT_FOUND);
+        }else{
+            this.studentService.removeStudent(id);
+            return new ResponseEntity<String>("failure", HttpStatus.OK);
+        }
     }
 }
