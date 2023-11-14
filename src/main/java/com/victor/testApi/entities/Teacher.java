@@ -2,13 +2,13 @@ package com.victor.testApi.entities;
 
 public class Teacher {
     
-    private Long id;
+    private int id;
     private int numeroEmpleado;
     private String nombres;
     private String apellidos;
     private int horasClase;
     
-    public Teacher(Long id, int numeroEmpleado, String nombres, String apellidos, int horasClase){
+    public Teacher(int id, int numeroEmpleado, String nombres, String apellidos, int horasClase){
         this.id = id;
         this.numeroEmpleado = numeroEmpleado;
         this.nombres = nombres;
@@ -16,11 +16,11 @@ public class Teacher {
         this.horasClase = horasClase;
     }
     
-    public Long getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
