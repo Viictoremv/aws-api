@@ -9,7 +9,11 @@ import com.victor.testApi.entities.Teacher;
 
 @Service
 public class TeacherService {
-        private List<Teacher> teacherList = new ArrayList<>();
+    private List<Teacher> teacherList = new ArrayList<>();
+
+    public TeacherService(){
+        teacherList.add(new Teacher(1, 1, "Michael", "Jackson", 8));
+    }
 
     public List<Teacher> getTeachers() {
         return this.teacherList;
