@@ -11,10 +11,6 @@ import com.victor.testApi.entities.Student;
 public class StudentService {
     private List<Student> studentsList = new ArrayList<>();
 
-    public StudentService(){
-        studentsList.add(new Student(1, "Rey", "Misterio", "A15", 5.15));
-    }
-
     public List<Student> getStudents() {
         return this.studentsList;
     }
