@@ -32,7 +32,7 @@ public class TeacherController {
     }
 
     @GetMapping("/profesores/{id}")
-    public Teacher getTeacher(@PathVariable Long id){
+    public Teacher getTeacher(@PathVariable int id){
         return this.teacherService.searchTeacher(id);
     }
 
@@ -43,7 +43,7 @@ public class TeacherController {
     }
 
     @PutMapping("/profesores/{id}")
-    public void modifyTeacher(@PathVariable Long id, @RequestBody Teacher teacher){
+    public void modifyTeacher(@PathVariable int id, @RequestBody Teacher teacher){
         this.teacherService.modifyTeacher(teacher, id);
     }
 
