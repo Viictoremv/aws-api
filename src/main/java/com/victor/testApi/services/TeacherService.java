@@ -19,7 +19,7 @@ public class TeacherService {
         teacherList.add(teacher);
     }
 
-    public void removeTeacher(Long id){
+    public void removeTeacher(int id){
         teacherList.removeIf(teacher -> teacher.getId() == id);
     }
 
