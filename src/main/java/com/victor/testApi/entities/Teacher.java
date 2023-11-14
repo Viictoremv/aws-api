@@ -1,11 +1,26 @@
 package com.victor.testApi.entities;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+
 public class Teacher {
     
     private int id;
     private int numeroEmpleado;
+
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String nombres;
+
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String apellidos;
+
+    @Positive
     private int horasClase;
     
     public Teacher(int id, int numeroEmpleado, String nombres, String apellidos, int horasClase){
