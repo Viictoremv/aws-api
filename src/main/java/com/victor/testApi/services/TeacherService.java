@@ -15,14 +15,6 @@ public class TeacherService {
         return this.teacherList;
     }
 
-    public TeacherService() {
-        teacherList.add(new Teacher(5L, 8, "santana", "calderon", 5));
-        teacherList.add(new Teacher(5L, 8, "santana", "calderon", 5));
-        teacherList.add(new Teacher(5L, 8, "santana", "calderon", 5));
-        teacherList.add(new Teacher(5L, 8, "santana", "calderon", 5));
-        teacherList.add(new Teacher(5L, 8, "santana", "calderon", 5));
-    }
-
     public void addTeacher(Teacher teacher){
         teacherList.add(teacher);
     }
@@ -31,7 +23,7 @@ public class TeacherService {
         teacherList.removeIf(teacher -> teacher.getId() == id);
     }
 
-    public void modifyTeacher(Teacher teacher, Long id){
+    public void modifyTeacher(Teacher teacher, int id){
         Teacher modifiedTeacher = searchTeacher(id);
         modifiedTeacher.setNombres(teacher.getNombres());
         modifiedTeacher.setApellidos(teacher.getApellidos());
@@ -39,7 +31,7 @@ public class TeacherService {
         modifiedTeacher.setHorasClase(teacher.getHorasClase());
     }
 
-    public Teacher searchTeacher(Long id){
+    public Teacher searchTeacher(int id){
         for(Teacher teacher : teacherList){
             if (teacher.getId() == id) {
                 return teacher;
