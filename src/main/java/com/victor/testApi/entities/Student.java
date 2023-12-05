@@ -1,36 +1,40 @@
 package com.victor.testApi.entities;
 
-import jakarta.validation.constraints.Digits;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
-
+@Entity(name = "alumnos")
+@Table(name = "alumnos")
 public class Student{
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String nombres;
     @NotBlank
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String apellidos;
     @NotBlank
     @NotNull
-    @Pattern(regexp = "^A\\d+$")
     private String matricula;
-    @Digits(integer=1, fraction=3)
     private double promedio;
+    private String fotoPerfilUrl;
     
-    public Student(int id, String name, String lastName, String studentId, double studentGPA){
-        this.id = id;
+    public Student(String name, String lastName, String studentId, double studentGPA){
         this.nombres = name;
         this.apellidos = lastName;
         this.matricula = studentId;
         this.promedio = studentGPA;
     }
+
+    public Student(){}
 
     public int getId() {
         return this.id;

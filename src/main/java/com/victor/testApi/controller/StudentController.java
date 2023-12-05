@@ -6,38 +6,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.victor.testApi.entities.Student;
+import com.victor.testApi.services.BucketService;
 import com.victor.testApi.services.StudentService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Validated
 public class StudentController {
     
     private final StudentService studentService;
+    private final BucketService bucketService;
 
     @Autowired
-    public StudentController(StudentService studentService){
+    public StudentController(StudentService studentService, BucketService bucketService){
         this.studentService = studentService;
+        this.bucketService = bucketService;
     }
 
     @GetMapping("/alumnos")
     public List<Student> getStudents(){
+        // this.bucketService.uploadPhoto();
+        System.out.println(this.studentService.getStudents());
         return this.studentService.getStudents();
     }
 
     @GetMapping("/alumnos/{id}")
-    public ResponseEntity<?> getStudent(@PathVariable Long id){
+    public ResponseEntity<?> getStudent(@PathVariable int id){
         Student student = this.studentService.searchStudent(id);
         if(student == null){
             return new ResponseEntity<String>("failure", HttpStatus.NOT_FOUND);
@@ -52,19 +51,26 @@ public class StudentController {
         return new ResponseEntity<Student>(student, HttpStatus.CREATED);
     }
 
+    @PostMapping("/alumnos/{id}/fotoPerfil")
+    public ResponseEntity<String> addProfilePhoto(@RequestPart("foto") MultipartFile profilePhoto, @PathVariable int id){
+        String fileName = this.studentService.searchStudent(id).getNombres();
+        this.bucketService.uploadPhoto(profilePhoto, fileName);
+        return new ResponseEntity<String>("Profile photo uploaded", HttpStatus.OK);
+    }
+
     @PutMapping("/alumnos/{id}")
-    public ResponseEntity<Student> modifyStudent(@PathVariable Long id, @RequestBody @Valid Student student){
+    public ResponseEntity<Student> modifyStudent(@PathVariable int id, @RequestBody @Valid Student student){
         this.studentService.modifyStudent(student, id);
-        return new ResponseEntity<Student>(student, HttpStatus.OK);
+        return new ResponseEntity<Student>(this.studentService.searchStudent(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/alumnos/{id}")
-    public ResponseEntity<String> removeStudent(@PathVariable Long id){
+    public ResponseEntity<String> removeStudent(@PathVariable int id){
         if(this.studentService.searchStudent(id) == null){
             return new ResponseEntity<String>("failure", HttpStatus.NOT_FOUND);
         }else{
             this.studentService.removeStudent(id);
-            return new ResponseEntity<String>("failure", HttpStatus.OK);
+            return new ResponseEntity<String>("deleted", HttpStatus.OK);
         }
     }
 }

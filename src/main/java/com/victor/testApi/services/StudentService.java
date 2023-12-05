@@ -3,41 +3,43 @@ package com.victor.testApi.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.victor.testApi.entities.Student;
+import com.victor.testApi.repository.StudentRepository;
 
 @Service
 public class StudentService {
-    private List<Student> studentsList = new ArrayList<>();
+    private final StudentRepository studentRepository;
+
+    @Autowired
+    public StudentService(StudentRepository studentRepository){
+        this.studentRepository = studentRepository;
+    }
 
     public List<Student> getStudents() {
-        return this.studentsList;
+        return this.studentRepository.findAll();
     }
 
     public void addStudent(Student student){
-        studentsList.add(student);
+        this.studentRepository.save(student);
     }
 
-    public void removeStudent(Long id){
-        studentsList.removeIf(student -> student.getId() == id );
+    public void removeStudent(int id){
+        this.studentRepository.deleteById(id);
     }
 
-    public void modifyStudent(Student student, Long id){
-        Student modifiedStudent = searchStudent(id);
-        modifiedStudent.setId(student.getId());
+    public void modifyStudent(Student student, int id){
+        Student modifiedStudent = this.studentRepository.findById(id).orElse(null);
         modifiedStudent.setNombres(student.getNombres());
         modifiedStudent.setApellidos(student.getApellidos());
         modifiedStudent.setMatricula(student.getMatricula());
         modifiedStudent.setPromedio(student.getPromedio());
+        this.studentRepository.save(modifiedStudent);
     }
 
-    public Student searchStudent(Long id){
-        for(Student student : studentsList){
-            if (student.getId() == id) {
-                return student;
-            }
-        }
-        return null;
+    public Student searchStudent(int id){
+        return this.studentRepository.findById(id).orElse(null);
     }
 }
