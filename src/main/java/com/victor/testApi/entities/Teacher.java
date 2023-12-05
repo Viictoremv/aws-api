@@ -1,23 +1,25 @@
 package com.victor.testApi.entities;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
+@Entity
 public class Teacher {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int numeroEmpleado;
 
     @NotBlank
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String nombres;
 
     @NotBlank
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String apellidos;
 
     @Positive
@@ -30,6 +32,8 @@ public class Teacher {
         this.apellidos = apellidos;
         this.horasClase = horasClase;
     }
+
+    public Teacher(){}
     
     public int getId() {
         return this.id;

@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 @Validated
 public class TeacherController {
     
-    private TeacherService teacherService;
+    private final TeacherService teacherService;
 
     @Autowired
     public TeacherController(TeacherService teacherService){
@@ -63,7 +63,7 @@ public class TeacherController {
             return new ResponseEntity<String>("failure", HttpStatus.NOT_FOUND);
         }else{
             this.teacherService.removeTeacher(id);
-            return new ResponseEntity<String>("failure", HttpStatus.OK);
+            return new ResponseEntity<String>("deleted", HttpStatus.OK);
         }
     }
 }

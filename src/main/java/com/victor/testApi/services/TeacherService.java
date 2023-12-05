@@ -3,24 +3,32 @@ package com.victor.testApi.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.victor.testApi.entities.Student;
+import com.victor.testApi.repository.StudentRepository;
+import com.victor.testApi.repository.TeacherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.victor.testApi.entities.Teacher;
 
 @Service
 public class TeacherService {
-    private List<Teacher> teacherList = new ArrayList<>();
+    private final TeacherRepository teacherRepository;
 
+    @Autowired
+    public TeacherService(TeacherRepository teacherRepository){
+        this.teacherRepository = teacherRepository;
+    }
     public List<Teacher> getTeachers() {
-        return this.teacherList;
+        return this.teacherRepository.findAll();
     }
 
     public void addTeacher(Teacher teacher){
-        teacherList.add(teacher);
+        this.teacherRepository.save(teacher);
     }
 
     public void removeTeacher(int id){
-        teacherList.removeIf(teacher -> teacher.getId() == id);
+        this.teacherRepository.deleteById(id);
     }
 
     public void modifyTeacher(Teacher teacher, int id){
@@ -29,14 +37,10 @@ public class TeacherService {
         modifiedTeacher.setApellidos(teacher.getApellidos());
         modifiedTeacher.setNumeroEmpleado(teacher.getNumeroEmpleado());
         modifiedTeacher.setHorasClase(teacher.getHorasClase());
+        this.teacherRepository.save(modifiedTeacher);
     }
 
     public Teacher searchTeacher(int id){
-        for(Teacher teacher : teacherList){
-            if (teacher.getId() == id) {
-                return teacher;
-            }
-        }
-        return null;
+        return this.teacherRepository.findById(id).orElse(null);
     }
 }
