@@ -31,7 +31,7 @@ public class StudentService {
     }
 
     public void modifyStudent(Student student, int id){
-        Student modifiedStudent = this.studentRepository.findById(id).orElse(null);
+        Student modifiedStudent = searchStudent(id);
         modifiedStudent.setNombres(student.getNombres());
         modifiedStudent.setApellidos(student.getApellidos());
         modifiedStudent.setMatricula(student.getMatricula());

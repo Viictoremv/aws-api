@@ -52,10 +52,14 @@ public class StudentController {
     }
 
     @PostMapping("/alumnos/{id}/fotoPerfil")
-    public ResponseEntity<String> addProfilePhoto(@RequestPart("foto") MultipartFile profilePhoto, @PathVariable int id){
-        String fileName = this.studentService.searchStudent(id).getNombres();
+    public ResponseEntity<Student> addProfilePhoto(@RequestPart("foto") MultipartFile profilePhoto, @PathVariable int id){
+        Student student = this.studentService.searchStudent(id);
+        String fileName = String.valueOf(student.getId());
         this.bucketService.uploadPhoto(profilePhoto, fileName);
-        return new ResponseEntity<String>("Profile photo uploaded", HttpStatus.OK);
+        student.setFotoPerfilUrl(this.bucketService.getUrl(fileName).toString());
+        this.studentService.modifyStudent(student, id);
+        System.out.println(student.getFotoPerfilUrl());
+        return new ResponseEntity<Student>(student, HttpStatus.OK);
     }
 
     @PutMapping("/alumnos/{id}")

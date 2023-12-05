@@ -2,10 +2,12 @@ package com.victor.testApi.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -37,5 +39,22 @@ public class BucketService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public URL getUrl(String fileName){
+        URL url = null;
+        try {
+            GetUrlRequest requestObject = GetUrlRequest
+                    .builder()
+                    .bucket(bucketName)
+                    .key(fileName + ".jpg")
+                    .build();
+            url = s3Client.utilities().getUrl(requestObject);
+            System.out.println("URL:" + url);
+            return url;
+        } catch (S3Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return url;
     }
 }

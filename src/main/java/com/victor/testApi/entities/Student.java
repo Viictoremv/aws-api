@@ -26,12 +26,14 @@ public class Student{
     private String matricula;
     private double promedio;
     private String fotoPerfilUrl;
+    private String password;
     
     public Student(String name, String lastName, String studentId, double studentGPA){
         this.nombres = name;
         this.apellidos = lastName;
         this.matricula = studentId;
         this.promedio = studentGPA;
+        this.fotoPerfilUrl = "";
     }
 
     public Student(){}
@@ -74,5 +76,21 @@ public class Student{
 
     public void setPromedio(double promedio) {
         this.promedio = promedio;
+    }
+
+    public void setFotoPerfilUrl(String fotoPerfilUrl){
+        this.fotoPerfilUrl = fotoPerfilUrl;
+    }
+
+    public String getFotoPerfilUrl() {
+        return fotoPerfilUrl;
+    }
+
+    public java.lang.String getPassword() {
+        return password;
+    }
+
+    public void setPassword(java.lang.String password) {
+        this.password = password;
     }
 }
