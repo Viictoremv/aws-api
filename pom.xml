@@ -50,7 +50,14 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
-		</dependency>      
+		</dependency>
+
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>dynamodb-enhanced</artifactId>
+			<version>2.21.37</version>
+		</dependency>
+
 
 	</dependencies>
 
