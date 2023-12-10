@@ -1,9 +1,11 @@
 package com.victor.testApi.entities;
 
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @DynamoDbBean
 public class Session {
@@ -14,7 +16,19 @@ public class Session {
     private boolean active;
     private String sessionString;
 
+    public void setFecha(int fecha) {
+        Instant instant = Instant.now();
+        this.fecha = (int) instant.getEpochSecond();
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    private String amigo;
+
     @DynamoDbPartitionKey
+    @DynamoDbAttribute("id")
     public String getId() {
         return id;
     }
@@ -22,15 +36,12 @@ public class Session {
     public void setId(String id) {
         this.id = id;
     }
-
+    @DynamoDbAttribute("fecha")
     public int getFecha() {
         return fecha;
     }
 
-    public void setFecha(int fecha) {
-        this.fecha = fecha;
-    }
-
+    @DynamoDbAttribute("alumnoId")
     public int getAlumnoId() {
         return alumnoId;
     }
@@ -38,15 +49,15 @@ public class Session {
     public void setAlumnoId(int alumnoId) {
         this.alumnoId = alumnoId;
     }
-
-    public boolean isActive() {
+    @DynamoDbAttribute("active")
+    public boolean getActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
     }
-
+    @DynamoDbAttribute("sessionString")
     public String getSessionString() {
         return sessionString;
     }
@@ -55,4 +66,14 @@ public class Session {
         this.sessionString = sessionString;
     }
 
+    @Override
+    public String toString() {
+        return "Session{" +
+                "id='" + id + '\'' +
+                ", fecha=" + fecha +
+                ", alumnoId=" + alumnoId +
+                ", active=" + active +
+                ", sessionString='" + sessionString + '\'' +
+                '}';
+    }
 }
