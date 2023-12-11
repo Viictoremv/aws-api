@@ -119,4 +119,11 @@ public class StudentController {
             return new ResponseEntity<>("{\"error\": \"Not found\"}", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping (value = "/alumnos/{id}/session/logout", produces = "application/json")
+    public ResponseEntity<String> logout(@PathVariable int id, @RequestBody Map<String, String> requestBody) {
+        String sessionString = requestBody.get("sessionString");
+        sessionService.logoutSession(id, sessionString);
+        return new ResponseEntity<>("{\"Logout Succesfully\"}", HttpStatus.OK);
+    }
 }

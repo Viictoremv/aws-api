@@ -7,11 +7,8 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.enhanced.dynamodb.*;
 import software.amazon.awssdk.enhanced.dynamodb.model.*;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
-import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
-import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 @Service
 public class SessionService {
@@ -34,11 +31,22 @@ public class SessionService {
         session.setActive(true);
         sessionString = sessionStringGenerator.generateSessionString();
         session.setSessionString(sessionString);
-        DynamoDbTable<Session> sessionsTable = getSessionTable();
-        sessionsTable.putItem(session);
+        saveSession(session);
         return sessionString;
     }
 
+    private void saveSession(Session session){
+        DynamoDbTable<Session> sessionsTable = getSessionTable();
+        sessionsTable.putItem(session);
+    }
+
+    public void logoutSession(int id, String sessionString){
+        Session session = getSession(id, sessionString);
+        if(session != null){
+            session.setActive(false);
+            saveSession(session);
+        }
+    }
     public boolean isValidSession(int id, String sessionString){
         Session session = getSession(id, sessionString);
         if(session != null){
@@ -51,7 +59,6 @@ public class SessionService {
     }
 
     private Session getSession(int id, String sessionString){
-        Session session;
         DynamoDbTable<Session> sessionsTable = getSessionTable();
         PageIterable<Session> allSessions = sessionsTable.scan(createSessionStringScan(sessionString));
         findSession(id, sessionString, allSessions);
