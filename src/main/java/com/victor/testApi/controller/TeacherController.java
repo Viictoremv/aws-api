@@ -54,7 +54,7 @@ public class TeacherController {
     @PutMapping("/profesores/{id}")
     public ResponseEntity<Teacher> modifyTeacher(@PathVariable int id, @RequestBody @Valid Teacher teacher){
         this.teacherService.modifyTeacher(teacher, id);
-        return new ResponseEntity<Teacher>(teacher, HttpStatus.OK);
+        return new ResponseEntity<Teacher>(this.teacherService.searchTeacher(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/profesores/{id}")

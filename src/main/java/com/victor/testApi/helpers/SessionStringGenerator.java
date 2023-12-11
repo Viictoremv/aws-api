@@ -1,12 +1,11 @@
 package com.victor.testApi.helpers;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 
 @Service
-public class SessionString {
+public class SessionStringGenerator {
     public String generateSessionString(){
         int length = 128;
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
